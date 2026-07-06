@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barber Elite - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #121212;
+            color: white;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #1a1a1a;
+            padding: 20px;
+            border-right: 1px solid #2a2a2a;
+        }
+
+        .sidebar-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            color: #c5a059;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 12px;
+            color: #bdbdbd;
+            margin: 0;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            color: #bdbdbd;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: #2a2a2a;
+            color: #c5a059;
+        }
+
+        .logout-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid #c5a059;
+            color: #c5a059;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(197, 160, 89, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .header-subtitle {
+            color: #bdbdbd;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .system-live {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .kpi-card h3 {
+            color: #bdbdbd;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .kpi-card .value {
+            color: #c5a059;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        /* Bookings Table */
+        .section {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .section.hidden {
+            display: none;
+        }
+
+        .section-view.hidden {
+            display: none;
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+            color: #c5a059;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .action-btn {
+            margin-right: 6px;
+            margin-bottom: 6px;
+            padding: 8px 10px;
+            border: 1px solid #404040;
+            background: #1a1a1a;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .action-btn:hover {
+            border-color: #c5a059;
+            color: #c5a059;
+        }
+
+        th {
+            background: #1a1a1a;
+            padding: 12px;
+            text-align: left;
+            color: #c5a059;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #404040;
+        }
+
+        tr:hover {
+            background: #333;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #ffd700;
+            color: #111;
+        }
+
+        .status-confirmed {
+            background: #51cf66;
+            color: white;
+        }
+
+        .status-completed {
+            background: #c5a059;
+            color: #111;
+        }
+
+        .status-cancelled {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #bdbdbd;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #2a2a2a;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>BARBER ELITE</h2>
+                <p class="sidebar-subtitle">Admin</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active" onclick="showSection('dashboard')">📊 Dashboard</a></li>
+                    <li><a href="#" onclick="showSection('bookings')">📋 Rezervacije</a></li>
+                    <li><a href="#" onclick="showSection('services')">✂️ Usluge</a></li>
+                    <li><a href="#" onclick="showSection('statistics')">📈 Statistika</a></li>
+                    <li><a href="#" onclick="showSection('settings')">⚙️ Postavke</a></li>
+                </ul>
+            </nav>
+
+            <button class="logout-btn" onclick="logout()">Odjava</button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div>
+                    <h1>Dobrodošli! 👋</h1>
+                    <p class="header-subtitle">Upravljanje barber salonom</p>
+                </div>
+                <div class="user-info">
+                    <p id="admin-email">admin@barberelite.rs</p>
+                    <p class="system-live">Sistem je live ✅</p>
+                </div>
+            </div>
+
+            <!-- Dashboard sekcija -->
+            <div id="dashboard-section" class="section-view">
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <h3>Ukupne rezervacije</h3>
+                        <div class="value" id="total-bookings">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>Očekujući termini</h3>
+                        <div class="value" id="pending-bookings">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>Završeni termini</h3>
+                        <div class="value" id="completed-bookings">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>Otkazani termini</h3>
+                        <div class="value" id="cancelled-bookings">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bookings-section" class="section hidden">
+                <h2>📋 Rezervacije</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ime</th>
+                            <th>Email</th>
+                            <th>Usluga</th>
+                            <th>Datum</th>
+                            <th>Status</th>
+                            <th>Akcije</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-table">
+                        <tr>
+                            <td colspan="6" class="no-data">
+                                Nema rezervacija. Čekamo prve klijente! 🎉
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="services-section" class="section hidden">
+                <h2>✂️ Usluge</h2>
+                <p class="no-data">Ovde će biti upravljanje uslugama: dodavanje, uređivanje i brisanje usluga.</p>
+            </div>
+
+            <div id="statistics-section" class="section hidden">
+                <h2>📈 Statistika</h2>
+                <p class="no-data">Ovde će biti grafici i statistika rezervacija po danima, uslugama i statusima.</p>
+            </div>
+
+            <div id="settings-section" class="section hidden">
+                <h2>⚙️ Postavke</h2>
+                <p class="no-data">Ovde će biti podešavanja admin panela i email notifikacija.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Proveravamo da li je admin ulogovan
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('adminToken');
+            const email = localStorage.getItem('adminEmail');
+
+            if (!token) {
+                window.location.href = './login.html';
+                return;
+            }
+
+            document.getElementById('admin-email').textContent = email;
+            showSection('dashboard');
+            loadBookings();
+        });
+
+        function loadBookings() {
+            // Preuzimamo rezervacije sa API-ja
+            fetch('http://localhost:5000/api/bookings')
+                .then(res => res.json())
+                .then(data => {
+                    const bookings = data.bookings || [];
+                    updateKPIs(bookings);
+                    displayBookings(bookings);
+                })
+                .catch(err => {
+                    console.error('Greška pri preuzimanju rezervacija:', err);
+                    document.getElementById('bookings-table').innerHTML = '<tr><td colspan="6" class="no-data">❌ Backend nije dostupan na localhost:5000</td></tr>';
+                });
+        }
+
+        function updateKPIs(bookings) {
+            const total = bookings.length;
+            const pending = bookings.filter(b => b.status === 'pending').length;
+            const completed = bookings.filter(b => b.status === 'completed').length;
+            const cancelled = bookings.filter(b => b.status === 'cancelled').length;
+
+            document.getElementById('total-bookings').textContent = total;
+            document.getElementById('pending-bookings').textContent = pending;
+            document.getElementById('completed-bookings').textContent = completed;
+            document.getElementById('cancelled-bookings').textContent = cancelled;
+        }
+
+        function displayBookings(bookings) {
+            const tbody = document.getElementById('bookings-table');
+
+            if (bookings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-data">Nema rezervacija</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = bookings.slice(0, 10).map(b => `
+                <tr>
+                    <td>${b.name}</td>
+                    <td>${b.email || 'N/A'}</td>
+                    <td>${b.service}</td>
+                    <td>${new Date(b.date).toLocaleDateString('sr-RS')}</td>
+                    <td><span class="status-badge status-${b.status}">${b.status}</span></td>
+                    <td>
+                        <button class="action-btn" onclick="changeStatus(${b.id}, 'confirmed')">Potvrdi</button>
+                        <button class="action-btn" onclick="changeStatus(${b.id}, 'completed')">Završi</button>
+                        <button class="action-btn" onclick="changeStatus(${b.id}, 'cancelled')">Otkaži</button>
+                        <button class="action-btn" onclick="deleteBooking(${b.id})">Obriši</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Promijeni status rezervacije
+        function changeStatus(id, status) {
+            if (!confirm('Da li ste sigurni da želite promijeniti status na "' + status + '"?')) return;
+
+            fetch('http://localhost:5000/api/bookings/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            }).then(res => {
+                if (!res.ok) throw new Error('Greška pri ažuriranju');
+                return res.json();
+            }).then(() => {
+                loadBookings();
+            }).catch(err => {
+                console.error(err);
+                alert('Greška pri ažuriranju rezervacije');
+            });
+        }
+
+        // "Obriši" rezervaciju - budući da backend nema DELETE, označimo kao cancelled i filtriramo u UI
+        function deleteBooking(id) {
+            if (!confirm('Obrisati rezervaciju? Ova akcija ne može biti poništena.')) return;
+
+            fetch('http://localhost:5000/api/bookings/' + id, {
+                method: 'DELETE'
+            }).then(res => {
+                if (!res.ok) throw new Error('Greška pri brisanju');
+                return res.json();
+            }).then(() => {
+                loadBookings();
+            }).catch(err => {
+                console.error(err);
+                alert('Greška pri brisanju rezervacije');
+            });
+        }
+
+        function showSection(section) {
+            const sections = ['dashboard', 'bookings', 'services', 'statistics', 'settings'];
+            sections.forEach(name => {
+                const el = document.getElementById(name + '-section');
+                if (el) {
+                    el.classList.toggle('hidden', name !== section);
+                }
+            });
+
+            document.querySelectorAll('.sidebar-nav a').forEach(link => link.classList.remove('active'));
+            const activeLink = Array.from(document.querySelectorAll('.sidebar-nav a')).find(a => a.getAttribute('onclick') === `showSection('${section}')`);
+            if (activeLink) activeLink.classList.add('active');
+
+            // Kada je dashboard aktivan, fokusiramo na kartice; za bookings samo pokažemo tabelu
+            if (section === 'bookings') {
+                loadBookings();
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminEmail');
+            window.location.href = './login.html';
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barber Elite - Admin Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: #2a2a2a;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .login-header .gold {
+            color: #c5a059;
+        }
+
+        .login-header p {
+            color: #bdbdbd;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            background: #1a1a1a;
+            color: white;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #c5a059;
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #c5a059;
+            color: #111;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(197, 160, 89, 0.3);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .success {
+            background: #51cf66;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #c5a059;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .back-link a:hover {
+            color: #d6ab69;
+        }
+
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1>BARBER <span class="gold">ELITE</span></h1>
+            <p>Admin Panel - Prijava</p>
+        </div>
+
+        <div id="error-msg" class="error"></div>
+        <div id="success-msg" class="success"></div>
+
+        <form id="admin-login-form">
+            <div class="form-group">
+                <label for="admin-email">Email (Admin)</label>
+                <input type="email" id="admin-email" name="email" placeholder="admin@barberelite.rs" required>
+            </div>
+
+            <div class="form-group">
+                <label for="admin-password">Lozinka</label>
+                <input type="password" id="admin-password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-login">Prijava</button>
+        </form>
+
+        <div class="back-link">
+            <a href="../index.html">← Nazad na sajt</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('admin-login-form');
+        const errorMsg = document.getElementById('error-msg');
+        const successMsg = document.getElementById('success-msg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+
+            if (!email || !password) {
+                showError('Sva polja su obavezna!');
+                return;
+            }
+
+            try {
+                // Backend integracija ide ovdje
+                // Za sada simuliramo login sa lozinkom "admin123"
+                
+                if (email === 'admin@barberelite.rs' && password === 'admin123') {
+                    // Čuva token u localStorage
+                    localStorage.setItem('adminToken', 'test_token_' + Date.now());
+                    localStorage.setItem('adminEmail', email);
+
+                    showSuccess('✅ Uspešna prijava! Preusmeravamo...');
+                    
+                    setTimeout(() => {
+                        window.location.href = './dashboard.html';
+                    }, 1500);
+                } else {
+                    showError('❌ Email ili lozinka nisu tačni!');
+                }
+
+            } catch (error) {
+                showError('Greška pri prijavi: ' + error.message);
+            }
+        });
+
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.style.display = 'block';
+            successMsg.style.display = 'none';
+        }
+
+        function showSuccess(msg) {
+            successMsg.textContent = msg;
+            successMsg.style.display = 'block';
+            errorMsg.style.display = 'none';
+        }
+    </script>
+
+    <!-- Link za Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+</body>
+</html>

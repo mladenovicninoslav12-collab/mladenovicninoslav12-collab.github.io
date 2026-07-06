@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barber Elite | Moderni muški salon</title>
+    <meta name="description" content="Moderni barber salon - šišanje, brijanje, full tretmani. Rezervišite termin online.">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner container">
+            <div class="logo">BARBER <span class="gold">ELITE</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Početna</a></li>
+                <li><a href="#services">Usluge</a></li>
+                <li><a href="#booking">Zakazivanje</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <h1>Više od običnog šišanja.</h1>
+            <p>Vrhunska usluga za modernog džentlmena — preciznost, stil i profesionalna nega.</p>
+            <a class="btn btn-primary" href="#booking">Zakaži termin</a>
+        </div>
+    </header>
+
+    <!-- SERVICES -->
+    <section id="services" class="services container">
+        <h2 class="section-title">Naše usluge</h2>
+        <div class="service-grid">
+            <article class="service-card">
+                <h3>Šišanje</h3>
+                <p>Precizne i moderne frizure prilagođene tvom stilu.</p>
+                <span class="price">1.200 RSD</span>
+            </article>
+
+            <article class="service-card">
+                <h3>Sređivanje brade</h3>
+                <p>Oblikovanje, trimovanje i nega brade sa stilom.</p>
+                <span class="price">800 RSD</span>
+            </article>
+
+            <article class="service-card">
+                <h3>Full tretman</h3>
+                <p>Šišanje, brijanje i masaža glave — kompletan paket.</p>
+                <span class="price">1.800 RSD</span>
+            </article>
+        </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section id="booking" class="booking container">
+        <h2 class="section-title">Zakazivanje</h2>
+        <p>Popuni formu ispod i mi ćemo potvrditi termin.</p>
+
+        <form id="reservation-form" class="form">
+
+            <label class="sr-only" for="name">Ime i prezime</label>
+            <input type="text" id="name" name="name" placeholder="Ime i prezime" required>
+
+            <label class="sr-only" for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Email adresa" required>
+
+            <label class="sr-only" for="phone">Broj telefona</label>
+            <input type="tel" id="phone" name="phone" placeholder="Broj telefona" required>
+
+            <label class="sr-only" for="service">Izaberi uslugu</label>
+            <select id="service" name="service" required>
+                <option value="" disabled selected>Izaberi uslugu</option>
+                <option value="Šišanje">Šišanje</option>
+                <option value="Brijanje/Brada">Brijanje/Brada</option>
+                <option value="Full tretman">Full tretman</option>
+                <option value="Dečije šišanje">Dečije šišanje</option>
+            </select>
+
+            <label class="sr-only" for="date">Datum i vreme</label>
+            <input type="datetime-local" id="date" name="date" required>
+
+            <button type="submit" class="btn btn-submit">Pošalji zahtev</button>
+        </form>
+
+        <div id="form-message" aria-live="polite"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>© <span id="year">2026</span> BARBER ELITE — Sva prava zadržana.</p>
+        </div>
+    </footer>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
